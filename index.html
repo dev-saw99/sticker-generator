@@ -46,6 +46,7 @@
 
         #canvas {
             border: 1px solid #000;
+            background-color: #0F111A;
         }
 
         #downloadButton {
@@ -95,11 +96,37 @@
 
             const baseY = 150; // Half of the original baseY
             const lineHeight = 75; // Half of the original lineHeight
-            const colors = ['#ff6347', '#4682b4', '#32cd32', '#ff69b4', '#ffa500']; // Harmonious colors
+            const colors = [
+                "#e300ff", // Electric Purple
+                "#b0ff00", // Lime Green
+                "#00ffd2", // Aqua Blue
+                "#F07178", // Red
+                "#C3E88D", // Green
+                "#ff6600", // Orange
+                "#FFCB6B", // Yellow
+                "#ff00ff", // Magenta
+                "#464B5D", // Bright Turquoise
+                "#ff6347", // Tomato
+                "#4682b4", // Steel Blue
+                "#ffa500",  // Orange
+                "82AAFF",
+                "#f8e9a1", // Light Goldenrod Yellow
+                "#f76c6c", // Coral Pink
+                "#a8d0e6", // Light Blue
+                "#374785", // Dark Blue
+                "#24305e",  // Dark Indigo
+                "#b24d4d", // Dark Salmon
+                "#c87a4c", // Copper
+                "#fcf7cf", // Pale Goldenrod
+                "#dec463", // Khaki
+                "#3e4d5f"  // Dark Slate Gray
+            ]; // Harmonious colors
 
             lines.forEach((line, index) => {
                 const y = baseY + index * lineHeight;
-                const textColor = colors[index % colors.length]; // Cycle through colors
+                const i = Math.floor((Math.random() * (colors.length - 1)))
+                console.log(i)
+                const textColor = colors[i]; // Cycle through colors
                 const outlineColor = '#ffffff';
                 drawTextWithOutline(line, canvas.width / 2, y, 60, textColor, outlineColor); // Half of the original fontSize
             });
