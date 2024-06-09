@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Image Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .input-container textarea {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            height: 100px;
+        }
+
+        .input-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .canvas-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #canvas {
+            border: 1px solid #000;
+        }
+
+        #downloadButton {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="input-container">
+        <textarea id="inputText" placeholder="Enter text with new lines"></textarea>
+        <button onclick="generateImage()">Generate Image</button>
+    </div>
+    <div class="canvas-container" id="canvas-container">
+        <canvas id="canvas" width="1024" height="540"></canvas>
+        <button id="downloadButton" onclick="downloadImage()">Download Image</button>
+    </div>
+    <script>
+        function generateImage() {
+            const canvasContainer = document.getElementById('canvas-container');
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const inputText = document.getElementById('inputText').value || "RUST\nPROGRAMMING\nTUTORIAL!";
+            const lines = inputText.split('\n');
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Background
+            ctx.fillStyle = 'rgba(0, 0, 0, 0)'; // Transparent background
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw text with white outline
+            function drawTextWithOutline(text, x, y, fontSize, textColor, outlineColor) {
+                ctx.font = `bold ${fontSize}px Rubik`;
+                ctx.textAlign = 'center';
+                ctx.lineWidth = 8; // Width of the outline (half of the original)
+                ctx.strokeStyle = outlineColor;
+                ctx.strokeText(text, x, y);
+                ctx.fillStyle = textColor;
+                ctx.fillText(text, x, y);
+            }
+
+            const baseY = 150; // Half of the original baseY
+            const lineHeight = 75; // Half of the original lineHeight
+            const colors = ['#ff6347', '#4682b4', '#32cd32', '#ff69b4', '#ffa500']; // Harmonious colors
+
+            lines.forEach((line, index) => {
+                const y = baseY + index * lineHeight;
+                const textColor = colors[index % colors.length]; // Cycle through colors
+                const outlineColor = '#ffffff';
+                drawTextWithOutline(line, canvas.width / 2, y, 60, textColor, outlineColor); // Half of the original fontSize
+            });
+
+            // Display the canvas and download button
+            canvasContainer.style.display = 'flex';
+        }
+
+        function downloadImage() {
+            const canvas = document.getElementById('canvas');
+            const link = document.createElement('a');
+            link.download = 'generated_image.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+
+</html>
